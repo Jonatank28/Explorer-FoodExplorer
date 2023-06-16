@@ -11,6 +11,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState()
     const [permission, setPermission] = useState(false)
     const [errorReq, setErrorReq] = useState('')
+    const [newTag, setNewTag] = useState('')
     const router = useRouter()
 
     //! Faz login do usuário
@@ -103,6 +104,8 @@ const AuthProvider = ({ children }) => {
         setErrorReq,
         fixedFooter,
         setFixedFooter,
+        setNewTag,
+        newTag,
     }
 
     return (
