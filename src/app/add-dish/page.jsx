@@ -81,46 +81,65 @@ const AddDish = () => {
     }
 
     //! Envia dados para a api
-    const handleSubmit = (values) => {
-        const valuesTotal = {
-            ...values,
-            tags,
-            category: values.category.value,
-        }
-        if (tags.length == 0) {
-            setError({
-                status: true,
-                message: 'Adicione pelo menos uma tag',
-                name: 'tags',
+    const handleSubmit = async (values) => {
+        try {
+            const formData = new FormData()
+            formData.append('name', values.name)
+            formData.append('category', values.category.value)
+            formData.append('price', values.price)
+            formData.append('description', values.description)
+            formData.append('dishImage', values.dishImage)
+
+            tags.forEach((tag) => {
+                formData.append('tags', tag)
             })
-            setTimeout(() => {
-                setError(false)
-            }, 1500)
-        }
-        if (values.category.value === 0) {
-            setError({
-                status: true,
-                message: 'Selecione uma categoria',
-                name: 'category',
-            })
-            setTimeout(() => {
-                setError(false)
-            }, 1500)
-            return
+
+            const response = await api.post('foods/create', formData)
+
+            console.log('Response:', response)
+        } catch (error) {
+            console.error('Error uploading dish:', error)
+            // Lide com o erro, se necessário
         }
 
-        if (tags.length > 0 && values.category.value !== 0) {
-            const createDish = async () => {
-                api.post('foods/create', { data: valuesTotal })
-                    .then((response) => {
-                        console.log('response', response)
-                    })
-                    .catch((error) => {
-                        console.log('error', error)
-                    })
-            }
-            createDish()
-        }
+        // const valuesTotal = {
+        //     ...values,
+        //     tags,
+        //     category: values.category.value,
+        // }
+        // if (tags.length == 0) {
+        //     setError({
+        //         status: true,
+        //         message: 'Adicione pelo menos uma tag',
+        //         name: 'tags',
+        //     })
+        //     setTimeout(() => {
+        //         setError(false)
+        //     }, 1500)
+        // }
+        // if (values.category.value === 0) {
+        //     setError({
+        //         status: true,
+        //         message: 'Selecione uma categoria',
+        //         name: 'category',
+        //     })
+        //     setTimeout(() => {
+        //         setError(false)
+        //     }, 1500)
+        //     return
+        // }
+
+        // if (tags.length > 0 && values.category.value !== 0) {
+        //     const createDish = async () => {
+        //         api.post('foods/create', { data: valuesTotal })
+        //             .then((response) => {
+        //                 console.log('response', response)
+        //             })
+        //             .catch((error) => {
+        //                 console.log('error', error)
+        //             })
+        //     }
+        //     createDish()
     }
 
     //! Footer fixo
