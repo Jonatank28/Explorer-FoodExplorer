@@ -3,22 +3,25 @@ import { AuthContext } from '@/context/authContext'
 import { useContext, useEffect, useState } from 'react'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
-
 import Link from 'next/link'
-import { ErrorMessage, Field, Form, Formik } from 'formik'
+import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
-import IconUpload from '@/icon/IconUpload'
 import InputNewEdit from '@/components/Form/InputNewEdit'
 import SelectNewEdit from '@/components/Form/SelectNewEdit'
 import TextAreaNewEdit from '@/components/Form/AreaNewEdit'
 import TagIngredient from '@/components/TagIngredient'
 import UploadFile from '@/components/Form/UploadFile'
+import { api } from '@/services/api'
 
-const AddDish = ({ categories }) => {
+const AddDish = () => {
     const { sidebarOpen, permission, setFixedFooter, newTag, setNewTag } =
         useContext(AuthContext)
     const [tags, setTags] = useState([])
-    const [errorTag, setErrorTag] = useState(false)
+    const [error, setError] = useState({
+        status: false,
+        message: '',
+        name: '',
+    })
 
     //! Valores iniciais
     const initialValues = {
@@ -29,9 +32,10 @@ const AddDish = ({ categories }) => {
         },
         price: '',
         description: '',
+        dishImage: '',
     }
 
-    //! Validação formulário
+    //! Validação do formulário
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Campo obrigatório'),
         category: Yup.object()
@@ -45,11 +49,6 @@ const AddDish = ({ categories }) => {
         dishImage: Yup.string().required('Campo obrigatório'),
     })
 
-    //! Envia dados para a api
-    const handleSubmit = (values) => {
-        console.log(values)
-    }
-
     //! Select
     const options = [
         { value: 1, label: 'Refeições' },
@@ -57,25 +56,77 @@ const AddDish = ({ categories }) => {
         { value: 3, label: 'Bebidas' },
     ]
 
-    useEffect(() => {
-        setFixedFooter(false)
-    }, [])
-
+    //! Adiciona tag
     const handleAddTag = () => {
         if (newTag === '') {
-            setErrorTag(true)
+            setError({
+                status: true,
+                message: 'Campo vazio',
+                name: 'tags',
+            })
             setTimeout(() => {
-                setErrorTag(false)
+                setError(false)
             }, 1500)
         }
         if (newTag.length > 0) {
-            setErrorTag(false)
+            setError(false)
             setTags((prevState) => [...prevState, newTag])
+            setNewTag('')
         }
-        setNewTag('')
     }
 
-    const handleRemoveTag = () => {}
+    //! Remove tag
+    const handleRemoveTag = (index) => {
+        setTags((prevState) => prevState.filter((_, i) => i !== index))
+    }
+
+    //! Envia dados para a api
+    const handleSubmit = (values) => {
+        const valuesTotal = {
+            ...values,
+            tags,
+            category: values.category.value,
+        }
+        if (tags.length == 0) {
+            setError({
+                status: true,
+                message: 'Adicione pelo menos uma tag',
+                name: 'tags',
+            })
+            setTimeout(() => {
+                setError(false)
+            }, 1500)
+        }
+        if (values.category.value === 0) {
+            setError({
+                status: true,
+                message: 'Selecione uma categoria',
+                name: 'category',
+            })
+            setTimeout(() => {
+                setError(false)
+            }, 1500)
+            return
+        }
+
+        if (tags.length > 0 && values.category.value !== 0) {
+            const createDish = async () => {
+                api.post('foods/create', { data: valuesTotal })
+                    .then((response) => {
+                        console.log('response', response)
+                    })
+                    .catch((error) => {
+                        console.log('error', error)
+                    })
+            }
+            createDish()
+        }
+    }
+
+    //! Footer fixo
+    useEffect(() => {
+        setFixedFooter(false)
+    }, [])
 
     return (
         permission && (
@@ -119,6 +170,7 @@ const AddDish = ({ categories }) => {
                                         label="Categoria"
                                         options={options}
                                         placeholder="Selecione uma categoria"
+                                        errorSelect={error}
                                     />
                                 </div>
                                 <div className="flex flex-col w-full md:w-auto  md:grid justify-end md:grid-cols-5 gap-7 md:gap-4 items-end">
@@ -129,15 +181,17 @@ const AddDish = ({ categories }) => {
                                         >
                                             Ingredientes
                                         </label>
-                                        <div className=" bg-dark-800 py-[7px] flex gap-2 px-[14px] rounded-lg appearance-none mt-[9px]">
+                                        <div className=" bg-dark-800 py-[7px] flex flex-wrap gap-2 px-[14px] rounded-lg appearance-none mt-[9px]">
                                             {tags &&
                                                 tags.map((item, index) => (
                                                     <TagIngredient
                                                         title={item}
                                                         isNew={false}
                                                         key={index}
-                                                        onClick={
-                                                            handleRemoveTag
+                                                        onClick={() =>
+                                                            handleRemoveTag(
+                                                                index
+                                                            )
                                                         }
                                                     />
                                                 ))}
@@ -146,7 +200,7 @@ const AddDish = ({ categories }) => {
                                                 isNew={true}
                                                 value={newTag}
                                                 onClick={handleAddTag}
-                                                errorTag={errorTag}
+                                                errorTag={error}
                                             />
                                         </div>
                                     </div>

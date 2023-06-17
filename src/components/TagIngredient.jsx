@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, ErrorMessage } from 'formik'
+import { Field, ErrorMessage, useField } from 'formik'
 import IconClose from '@/icon/IconClose'
 import IconPlus from '@/icon/IconPlus'
 import { AuthContext } from '@/context/authContext'
@@ -7,13 +7,17 @@ import { useContext } from 'react'
 
 const TagIngredient = ({ title, isNew, onClick, value, errorTag }) => {
     const { setNewTag } = useContext(AuthContext)
+    const [field, helpers] = useField('newIngredient')
+    const hasValue = field.value !== ''
+
+    const handleInputChange = (event) => {
+        helpers.setValue(event.target.value)
+    }
 
     return (
         <div
-            className={`px-2 py-1 rounded-lg w-32 flex items-center gap-1 relative ${
-                isNew
-                    ? 'bg-transparent border border-dotted border-spacing-40'
-                    : 'bg-light-600'
+            className={`px-2 py-1 rounded-lg flex items-center justify-center gap-1 relative ${
+                isNew ? 'bg-transparent border border-dotted' : 'bg-light-600'
             }`}
         >
             {isNew ? (
@@ -23,7 +27,9 @@ const TagIngredient = ({ title, isNew, onClick, value, errorTag }) => {
                         name="newIngredient"
                         type="text"
                         value={value}
-                        className="font-roboto font-normal text-base bg-transparent text-light-500 w-full outline-none"
+                        className={`font-roboto font-normal text-base bg-transparent outline-none ${
+                            hasValue ? 'text-light-100' : 'text-light-500'
+                        }`}
                         placeholder="Adicionar"
                         onChange={(e) => setNewTag(e.target.value)}
                     />
@@ -31,9 +37,9 @@ const TagIngredient = ({ title, isNew, onClick, value, errorTag }) => {
                         className="text-light-500 cursor-pointer"
                         onClick={onClick}
                     />
-                    {errorTag && (
-                        <span className="text-red-500 text-xs font-roboto absolute -bottom-5 right-0 w-[70px]">
-                            campo vazio
+                    {errorTag.status && errorTag.name == 'tags' && (
+                        <span className="text-red-500 text-xs font-roboto absolute -bottom-5 right-0 ">
+                            {errorTag.message}
                         </span>
                     )}
                 </>

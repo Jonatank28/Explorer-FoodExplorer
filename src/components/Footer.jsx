@@ -7,6 +7,7 @@ import { AuthContext } from '@/context/authContext'
 const Footer = () => {
     const { sidebarOpen, fixedFooter } = useContext(AuthContext)
     const [isMobile, setIsMobile] = useState(false)
+    const currentYear = new Date().getFullYear()
 
     useEffect(() => {
         const handleResize = () => {
@@ -18,8 +19,6 @@ const Footer = () => {
             window.removeEventListener('resize', handleResize)
         }
     }, [])
-
-    const currentYear = new Date().getFullYear()
 
     return (
         <footer

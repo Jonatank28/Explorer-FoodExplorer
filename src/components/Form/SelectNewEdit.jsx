@@ -1,6 +1,7 @@
+import React from 'react'
 import { Field, ErrorMessage, useField } from 'formik'
 
-const SelectNewEdit = ({ name, label, options, placeholder }) => {
+const SelectNewEdit = ({ name, label, options, placeholder, errorSelect }) => {
     const [field, , helpers] = useField(name)
 
     const handleSelectChange = (event) => {
@@ -33,10 +34,16 @@ const SelectNewEdit = ({ name, label, options, placeholder }) => {
                     </option>
                 ))}
             </Field>
+            {errorSelect.status && errorSelect.name == 'category' && (
+                <span className="text-red-500 text-xs font-roboto absolute -bottom-5 right-0 ">
+                    {errorSelect.message}
+                </span>
+            )}
+
             <ErrorMessage
                 name={name}
                 component="div"
-                className="text-red-400 text-xs"
+                className="text-red-400 text-xs absolute -bottom-5 right-0"
             />
         </div>
     )
