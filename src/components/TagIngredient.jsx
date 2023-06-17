@@ -37,7 +37,7 @@ const TagIngredient = ({ title, isNew, onClick, value, errorTag }) => {
                         className="text-light-500 cursor-pointer"
                         onClick={onClick}
                     />
-                    {errorTag.status && errorTag.name == 'tags' && (
+                    {errorTag && errorTag.status && errorTag.name == 'tags' && (
                         <span className="text-red-500 text-xs font-roboto absolute -bottom-5 right-0 ">
                             {errorTag.message}
                         </span>

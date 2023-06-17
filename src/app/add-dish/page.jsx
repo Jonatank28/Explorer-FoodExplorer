@@ -155,7 +155,6 @@ const AddDish = () => {
                                 <div className="flex flex-col md:flex-row gap-8 items-end w-full">
                                     <UploadFile
                                         name="dishImage"
-                                        type="file"
                                         label="Imagem"
                                     />
 

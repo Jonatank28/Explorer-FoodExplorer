@@ -34,11 +34,13 @@ const SelectNewEdit = ({ name, label, options, placeholder, errorSelect }) => {
                     </option>
                 ))}
             </Field>
-            {errorSelect.status && errorSelect.name == 'category' && (
-                <span className="text-red-500 text-xs font-roboto absolute -bottom-5 right-0 ">
-                    {errorSelect.message}
-                </span>
-            )}
+            {errorSelect &&
+                errorSelect.status &&
+                errorSelect.name == 'category' && (
+                    <span className="text-red-500 text-xs font-roboto absolute -bottom-5 right-0 ">
+                        {errorSelect.message}
+                    </span>
+                )}
 
             <ErrorMessage
                 name={name}

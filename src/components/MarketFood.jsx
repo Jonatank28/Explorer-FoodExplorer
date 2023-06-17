@@ -8,9 +8,10 @@ const MarketFood = () => {
 
     return (
         <section className="w-default mx-auto m-24">
-            {Object.keys(foods).map((category, index) => (
-                <Category key={category} index={index} />
-            ))}
+            {foods &&
+                foods.map((category, index) => (
+                    <Category key={category} index={index} />
+                ))}
         </section>
     )
 }

@@ -1,12 +1,14 @@
 import React from 'react'
 import { Field, ErrorMessage, useField } from 'formik'
 
-const UploadFile = ({ name, type, label }) => {
+const UploadFile = ({ name, label }) => {
     const [field, meta, helpers] = useField(name)
     const hasValue = field.value !== ''
 
     const handleInputChange = (event) => {
-        helpers.setValue(event.target.value)
+        console.log(event.currentTarget.files[0])
+        const file = event.currentTarget.files[0]
+        helpers.setValue(file)
     }
 
     return (
@@ -17,16 +19,15 @@ const UploadFile = ({ name, type, label }) => {
             >
                 {label}
             </label>
-            <Field
-                as="input"
+            <input
                 className={`bg-dark-800 py-[9px] px-[14px] rounded-lg w-full md:w-[250px] appearance-none ${
                     hasValue ? 'text-light-100' : 'text-light-500'
                 }`}
-                type={type}
+                type="file"
                 id={name}
                 name={name}
                 onChange={handleInputChange}
-                initialTouched={meta.touched}
+                onBlur={field.onBlur}
             />
             <ErrorMessage
                 name={name}
