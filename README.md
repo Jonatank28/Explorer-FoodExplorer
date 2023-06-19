@@ -1,34 +1,77 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">
 
-## Getting Started
+<img src="https://raw.githubusercontent.com/khalleb/ignews/main/public/images/avatar.svg" alt="rocketshoes" width="100px"/>
 
-First, run the development server:
+</h1>
+
+## Food Explorer
+
+O Food Explorer é o projeto final do programa Explorer, uma aplicação que visa simular um sistema completo de pedidos de comida. O projeto inclui recursos como autenticação de usuários, login e cadastro, com a utilização de tokens para autenticação. Inspirado por plataformas como o iFood, o Food Explorer permite que os usuários realizem pedidos de pratos e refrigerantes, além de oferecer um sistema de carrinho para armazenar os itens selecionados. Por fim, o projeto conta com uma tela de pagamento, embora seja importante ressaltar que essa funcionalidade é apenas uma representação e não realiza transações reais. É importante destacar que existem dois tipos de usuários no sistema, o administrador (admin) e o cliente (client), cada um com permissões distintas e acesso a recursos específicos.
+<br>
+
+## Tecnologias
+
+As seguintes tecnologias foram utilizadas no projeto:
+
+-   [Next.js](https://nextjs.org/)
+-   [TypeScript](https://www.typescriptlang.org/)
+-   [Tailwind](https://tailwindcss.com/)
+-   [Node](https://nodejs.org/en)
+-   [MySQL](https://www.mysql.com/)
+
+## Principais bibliotecas
+
+-   [Formik](https://formik.org/)
+-   [Yup](https://github.com/jquense/yup)
+-   [Axios](https://axios-http.com/)
+-   [Express](https://expressjs.com/)
+-   [Bcrypt](https://www.npmjs.com/package/bcrypt)
+-   [jsonwebtoken](https://jwt.io/)
+
+## Começando
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+# Clone this project
+$ git clone git@github.com:Jonatank28/Explorer-Food-Explorer-Front.git
+
+# Access
+$ cd Explorer-Food-Explorer-Front
+
+# Install dependencies
+$ npm install
+
+# Run the project
+$ npm run dev
+
+# The server will initialize in the <http://localhost:3000>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Acesso
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+O sistema exibe diferentes conteúdos com base no papel do usuário, que pode ser "admin" ou "client". Ao fazer um novo cadastro no sistema, o usuário é automaticamente atribuído ao papel "client" como padrão.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Segue acessos de exemplo:
 
-## Learn More
+Admin:
 
-To learn more about Next.js, take a look at the following resources:
+-   email: admin@gmail.com
+-   password: 123456
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Client:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+-   email: client@gmail.com
+-   password: 123456
 
-## Deploy on Vercel
+## Imagens
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<h1 align="center">
+    <img alt = "Web app" src = "./.github/image-01.png" width = "500px" />
+    <img alt = "Web app" src = "./.github/image-02.png" width = "500px" />
+    <img alt = "Web app" src = "./.github/image-03.png" width = "500px" />
+    <img alt = "Web app" src = "./.github/image-04.png" width = "500px" />
+</h1>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Creditos
+
+Dúvidas sobre Json Web Token: https://www.youtube.com/watch?v=r4gjCn2r-iw&ab_channel=GuidoCerqueira
+Dúvidas sobre rotas dinamicas do Next.js 13.4 : https://www.youtube.com/watch?v=b8JX94mkwio&ab_channel=DeveloperDeck101
