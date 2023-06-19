@@ -12,6 +12,7 @@ const AuthProvider = ({ children }) => {
     const [permission, setPermission] = useState(false)
     const [errorReq, setErrorReq] = useState('')
     const [newTag, setNewTag] = useState('')
+    const [errorCode, setErrorCode] = useState('')
     const router = useRouter()
 
     //! Faz login do usuário
@@ -56,7 +57,9 @@ const AuthProvider = ({ children }) => {
             })
             .catch((error) => {
                 console.log(error)
+                console.log(error.response.status)
                 // TODO Fazer telas (401 | 403 = 'Sem permissão', 419 = 'Token expirado')
+                setErrorCode(error.response.status)
                 console.log('erro de token', error)
             })
     }
@@ -106,6 +109,8 @@ const AuthProvider = ({ children }) => {
         setFixedFooter,
         setNewTag,
         newTag,
+        errorCode,
+        setErrorCode,
     }
 
     return (
