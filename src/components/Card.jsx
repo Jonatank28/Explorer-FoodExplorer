@@ -23,7 +23,7 @@ const Card = ({ index }) => {
         <>
             {foods?.[index]?.foods?.map((item) => (
                 <div
-                    className="bg-dark-200 py-6 md:py-16 px-6 w-52 md:w-[304px] min-h-[290px] flex flex-col justify-center items-center relative"
+                    className="bg-dark-200 py-6 md:py-16 px-6 w-52 md:min-w-[304px] min-h-[290px] flex flex-col justify-center items-center relative"
                     key={item.foodID}
                 >
                     {user?.papelID === 1 ? (
