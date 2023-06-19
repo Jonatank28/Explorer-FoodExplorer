@@ -94,7 +94,7 @@ const AddDish = () => {
                 formData.append('tags', tag)
             })
 
-            const response = await api.post('foods/create', formData)
+            const response = await api.patch('foods/create', formData)
 
             console.log('Response:', response)
         } catch (error) {

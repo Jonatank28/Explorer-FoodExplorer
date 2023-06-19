@@ -53,7 +53,7 @@ const DishSelected = ({}) => {
                             <div className="flex flex-col md:flex-row items-center justify-start pt-6 md:pt-10 gap-12">
                                 <div className="">
                                     <img
-                                        src={`/${data?.food[0].path}`}
+                                        src={`${data?.food[0].imagePath}`}
                                         alt={`Foto do prato: ${data?.food[0].name}`}
                                         className="w-[264px] h-[264px] md:w-[390px] md:h-[390px]"
                                     />

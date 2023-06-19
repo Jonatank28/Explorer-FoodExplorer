@@ -42,7 +42,7 @@ const Card = ({ index }) => {
                         />
                     )}
                     <img
-                        src={item.path}
+                        src={item.imagePath}
                         alt=""
                         className="w-[88px] h-[88px] md:w-44 md:h-44 rounded-full"
                     />

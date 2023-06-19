@@ -1,8 +1,11 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import axios from 'axios'
+import { foodContext } from '@/context/foodContext'
 
 const ImageUpload = () => {
+    const { foods } = useContext(foodContext)
+
     const [selectedFile, setSelectedFile] = useState(null)
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState({
