@@ -1,5 +1,6 @@
 'use client'
 import { AuthContext } from '@/context/authContext'
+import { foodContext } from '@/context/foodContext'
 import { useContext, useEffect, useState } from 'react'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
@@ -12,15 +13,24 @@ import TextAreaNewEdit from '@/components/Form/AreaNewEdit'
 import TagIngredient from '@/components/TagIngredient'
 import UploadFile from '@/components/Form/UploadFile'
 import { api } from '@/services/api'
+import Toaster from '@/components/Toaster'
+import { useRouter } from 'next/navigation'
 
 const AddDish = () => {
+    const router = useRouter()
     const { sidebarOpen, permission, setFixedFooter, newTag, setNewTag } =
         useContext(AuthContext)
+    const { getFoods } = useContext(foodContext)
     const [tags, setTags] = useState([])
     const [error, setError] = useState({
         status: false,
         message: '',
         name: '',
+    })
+    const [showToaster, setShowToaster] = useState({
+        status: false,
+        message: '',
+        tag: '',
     })
 
     //! Valores iniciais
@@ -82,6 +92,33 @@ const AddDish = () => {
 
     //! Envia dados para a api
     const handleSubmit = async (values) => {
+        const valuesTotal = {
+            ...values,
+            tags,
+            category: values.category.value,
+        }
+        if (tags.length == 0) {
+            setError({
+                status: true,
+                message: 'Adicione pelo menos uma tag',
+                name: 'tags',
+            })
+            setTimeout(() => {
+                setError(false)
+            }, 1500)
+        }
+        if (values.category.value === 0) {
+            setError({
+                status: true,
+                message: 'Selecione uma categoria',
+                name: 'category',
+            })
+            setTimeout(() => {
+                setError(false)
+            }, 1500)
+            return
+        }
+
         try {
             const formData = new FormData()
             formData.append('name', values.name)
@@ -96,50 +133,31 @@ const AddDish = () => {
 
             const response = await api.patch('foods/create', formData)
 
-            console.log('Response:', response)
+            if (response.status === 200) {
+                setShowToaster({
+                    status: true,
+                    message: 'Prato adicionado com sucesso',
+                    tag: 'success',
+                })
+                getFoods()
+                setTimeout(() => {
+                    router.push('/')
+                }, 1000)
+            }
         } catch (error) {
-            console.error('Error uploading dish:', error)
-            // Lide com o erro, se necessário
+            setShowToaster({
+                status: true,
+                message: 'Erro ao adicionar prato',
+                tag: 'error',
+            })
+            setTimeout(() => {
+                setShowToaster({
+                    status: false,
+                    message: '',
+                    tag: '',
+                })
+            }, 4000)
         }
-
-        // const valuesTotal = {
-        //     ...values,
-        //     tags,
-        //     category: values.category.value,
-        // }
-        // if (tags.length == 0) {
-        //     setError({
-        //         status: true,
-        //         message: 'Adicione pelo menos uma tag',
-        //         name: 'tags',
-        //     })
-        //     setTimeout(() => {
-        //         setError(false)
-        //     }, 1500)
-        // }
-        // if (values.category.value === 0) {
-        //     setError({
-        //         status: true,
-        //         message: 'Selecione uma categoria',
-        //         name: 'category',
-        //     })
-        //     setTimeout(() => {
-        //         setError(false)
-        //     }, 1500)
-        //     return
-        // }
-
-        // if (tags.length > 0 && values.category.value !== 0) {
-        //     const createDish = async () => {
-        //         api.post('foods/create', { data: valuesTotal })
-        //             .then((response) => {
-        //                 console.log('response', response)
-        //             })
-        //             .catch((error) => {
-        //                 console.log('error', error)
-        //             })
-        //     }
-        //     createDish()
     }
 
     //! Footer fixo
@@ -151,6 +169,12 @@ const AddDish = () => {
         permission && (
             <main className="">
                 <Header />
+                {showToaster.status && (
+                    <Toaster
+                        message={showToaster.message}
+                        tag={showToaster.tag}
+                    />
+                )}
                 {!sidebarOpen && (
                     <div className=" w-default mx-auto px-4 md:px-0">
                         <div className="pt-4 md:pt-6 ">

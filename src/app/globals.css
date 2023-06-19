@@ -3,6 +3,28 @@
 @tailwind utilities;
 
 
-.gradient-background {
-    background: linear-gradient(to top, #0d351d, #1d5d32, #297949, #3f8e60, #52b777);
+
+/*! Toaster */
+.toaster {
+    @apply fixed bottom-5 left-1/2 transform -translate-x-1/2 w-64 p-4 rounded-md text-white text-center transition-all duration-300 z-50;
+}
+
+.visible {
+    @apply translate-y-0 opacity-100;
+}
+
+.error {
+    @apply bg-red-500;
+}
+
+.primary {
+    @apply bg-blue-500;
+}
+
+.warning {
+    @apply bg-yellow-500;
+}
+
+.sussess {
+    @apply bg-green-500;
 }

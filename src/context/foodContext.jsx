@@ -27,6 +27,7 @@ const FoodProvider = ({ children }) => {
     const values = {
         foods,
         setFoods,
+        getFoods,
     }
 
     return (
