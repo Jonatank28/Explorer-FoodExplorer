@@ -251,7 +251,7 @@ const AddDish = () => {
                                             name="price"
                                             placeholder="R$ 00,00"
                                             label="Preço"
-                                            type="string"
+                                            type="number"
                                         />
                                     </div>
                                 </div>
