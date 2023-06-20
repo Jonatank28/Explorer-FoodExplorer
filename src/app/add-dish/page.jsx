@@ -264,7 +264,7 @@ const AddDish = () => {
                                 <div className="flex justify-end items-center ">
                                     <button
                                         type="submit"
-                                        className="w-full md:w-auto text-light-100 font-poppins font-medium leading-6 px-6 py-3 text-sm bg-tints-Tomato400 rounded-md mt-7 mb-28"
+                                        className="w-full md:w-auto text-light-100 font-poppins font-medium leading-6 px-6 py-3 text-sm bg-tints-Tomato400 hover:bg-tints-Tomato300  transition-colors rounded-md mt-7 mb-28"
                                     >
                                         Salvar alterações
                                     </button>

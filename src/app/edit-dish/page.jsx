@@ -15,14 +15,15 @@ import UploadFile from '@/components/Form/UploadFile'
 import { api } from '@/services/api'
 import Toaster from '@/components/Toaster'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Modal from '@/components/Modal'
 
 const EditDish = () => {
-    const router = useRouter()
     const { sidebarOpen, permission, setFixedFooter, newTag, setNewTag } =
         useContext(AuthContext)
     const { getFoods } = useContext(foodContext)
     const [tags, setTags] = useState([])
-    console.log('🚀 ~ tags:', tags)
+    const [openModalDelete, setOpenModalDelete] = useState(false)
+
     const [error, setError] = useState({
         status: false,
         message: '',
@@ -36,6 +37,7 @@ const EditDish = () => {
     const [food, setFood] = useState(null)
     const searchParams = useSearchParams()
     const id = searchParams.get('id')
+    const router = useRouter()
 
     //! Valores iniciais
     const initialValues = {
@@ -107,35 +109,69 @@ const EditDish = () => {
         setTags((prevState) => prevState.filter((_, i) => i !== index))
     }
 
+    //! Deleta prato
+    const handleClickDelete = async () => {
+        console.log('delete')
+        await api
+            .delete(`/foods/delete/${id}`)
+            .then((response) => {
+                if (response.status === 200) {
+                    setOpenModalDelete(false)
+                    setShowToaster({
+                        status: true,
+                        message: response.data.message,
+                        tag: 'success',
+                    })
+                    getFoods()
+                    setTimeout(() => {
+                        router.push('/')
+                    }, 2000)
+                }
+            })
+            .catch((error) => {
+                setShowToaster({
+                    status: true,
+                    message: 'Erro ao deletar prato',
+                    tag: 'error',
+                })
+                setTimeout(() => {
+                    setShowToaster({
+                        status: false,
+                        message: '',
+                        tag: '',
+                    })
+                }, 4000)
+            })
+    }
+
     //! Envia dados para a api
     const handleSubmit = async (values) => {
-        console.log('🚀 ~ values:', values)
         const valuesTotal = {
             ...values,
             tags,
             category: values.category.value,
         }
-        // if (tags.length == 0) {
-        //     setError({
-        //         status: true,
-        //         message: 'Adicione pelo menos uma tag',
-        //         name: 'tags',
-        //     })
-        //     setTimeout(() => {
-        //         setError(false)
-        //     }, 1500)
-        // }
-        // if (values.category.value === 0) {
-        //     setError({
-        //         status: true,
-        //         message: 'Selecione uma categoria',
-        //         name: 'category',
-        //     })
-        //     setTimeout(() => {
-        //         setError(false)
-        //     }, 1500)
-        //     return
-        // }
+        if (tags.length == 0) {
+            setError({
+                status: true,
+                message: 'Adicione pelo menos uma tag',
+                name: 'tags',
+            })
+            setTimeout(() => {
+                setError(false)
+            }, 1500)
+        }
+        if (values.category.value === 0) {
+            setError({
+                status: true,
+                message: 'Selecione uma categoria',
+                name: 'category',
+            })
+            setTimeout(() => {
+                setError(false)
+            }, 1500)
+            return
+        }
 
         try {
             const formData = new FormData()
@@ -150,33 +186,35 @@ const EditDish = () => {
             })
 
             const response = await api.put(`foods/update/${id}`, formData)
-            console.log(response)
-
-            // if (response.status === 200) {
-            //     setShowToaster({
-            //         status: true,
-            //         message: 'Prato adicionado com sucesso',
-            //         tag: 'success',
-            //     })
-            //     getFoods()
-            //     setTimeout(() => {
-            //         router.push('/')
-            //     }, 1000)
-            // }
+            if (response.status === 200) {
+                setShowToaster({
+                    status: true,
+                    message: response.data.message,
+                    tag: 'success',
+                })
+                setTimeout(() => {
+                    setShowToaster({
+                        status: false,
+                        message: '',
+                        tag: '',
+                    })
+                }, 4000)
+                getFoods()
+            }
         } catch (error) {
-            console.log(error)
-            // setShowToaster({
-            //     status: true,
-            //     message: 'Erro ao adicionar prato',
-            //     tag: 'error',
-            // })
-            // setTimeout(() => {
-            //     setShowToaster({
-            //         status: false,
-            //         message: '',
-            //         tag: '',
-            //     })
-            // }, 4000)
+            // console.log(error)
+            setShowToaster({
+                status: true,
+                message: 'Erro ao adicionar prato',
+                tag: 'error',
+            })
+            setTimeout(() => {
+                setShowToaster({
+                    status: false,
+                    message: '',
+                    tag: '',
+                })
+            }, 4000)
         }
     }
 
@@ -295,13 +333,31 @@ const EditDish = () => {
                                     placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
                                     label="Descrição"
                                 />
-                                <div className="flex justify-end items-center ">
+                                <div className="flex justify-end items-center gap-8">
+                                    <button
+                                        type="button"
+                                        onClick={() => setOpenModalDelete(true)}
+                                        className="text-light-100 font-poppins font-medium leading-6 px-6 py-3 text-sm bg-dark-800 hover:bg-dark-700 transition-colors rounded-md mt-7 mb-28"
+                                    >
+                                        Excluir prato
+                                    </button>
                                     <button
                                         type="submit"
-                                        className="w-full md:w-auto text-light-100 font-poppins font-medium leading-6 px-6 py-3 text-sm bg-tints-Tomato400 rounded-md mt-7 mb-28"
+                                        className="text-light-100 font-poppins font-medium leading-6 px-6 py-3 text-sm bg-tints-Tomato400 hover:bg-tints-Tomato300  transition-colors rounded-md mt-7 mb-28"
                                     >
                                         Salvar alterações
                                     </button>
+                                    {openModalDelete && (
+                                        <Modal
+                                            title="Excluir prato"
+                                            message="Tem certeza que deseja excluir esse prato?"
+                                            onConfirm={handleClickDelete}
+                                            isOpen={openModalDelete}
+                                            onCancel={() =>
+                                                setOpenModalDelete(false)
+                                            }
+                                        />
+                                    )}
                                 </div>
                             </Form>
                         </Formik>

@@ -15,7 +15,6 @@ const DishSelected = ({}) => {
     const [data, setData] = useState(null)
     const searchParams = useSearchParams()
     const id = searchParams.get('id')
-    console.log('🚀 ~ id:', id)
 
     const getFoodSelect = async () => {
         try {
@@ -94,7 +93,11 @@ const DishSelected = ({}) => {
                                         )}
                                         <div className="flex items-center bg-tints-Tomato100 py-3 px-6 rounded-md text-light-100 font-poppins font-medium text-sm leading-6 ">
                                             {user?.papelID == 1 ? (
-                                                <span>Editar prato</span>
+                                                <Link
+                                                    href={`/edit-dish?id=${data?.food[0]?.foodID}`}
+                                                >
+                                                    Editar prato
+                                                </Link>
                                             ) : (
                                                 <>
                                                     <span>incluir</span>
