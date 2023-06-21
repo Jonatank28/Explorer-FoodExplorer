@@ -28,3 +28,18 @@
 .sussess {
     @apply bg-green-500;
 }
+
+/*!Scroll costumizado */
+::-webkit-scrollbar {
+    width: 0.5rem;
+    heigth: 1rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #0D1D25;
+    border-radius: 1rem;
+}
+
+::-webkit-scroll-track {
+    background-color: transparent;
+}

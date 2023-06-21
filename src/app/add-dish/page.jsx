@@ -56,7 +56,7 @@ const AddDish = () => {
             .required('Campo obrigatório'),
         price: Yup.string().required('Campo obrigatório'),
         description: Yup.string().required('Campo obrigatório'),
-        dishImage: Yup.string().required('Campo obrigatório'),
+        dishImage: Yup.mixed().required('Campo obrigatório'),
     })
 
     //! Select

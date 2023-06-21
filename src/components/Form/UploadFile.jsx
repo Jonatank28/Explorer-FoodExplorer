@@ -1,34 +1,54 @@
-import React from 'react'
+import { useRef, useState } from 'react'
 import { Field, ErrorMessage, useField } from 'formik'
+import IconUpload from '@/icon/IconUpload'
 
-const UploadFile = ({ name, label }) => {
+const UploadFile = ({ name, label, path }) => {
     const [field, meta, helpers] = useField(name)
     const hasValue = field.value !== ''
 
-    const handleInputChange = (event) => {
-        console.log(event.currentTarget.files[0])
+    const handleFileSelect = (event) => {
         const file = event.currentTarget.files[0]
         helpers.setValue(file)
     }
 
+    const fileInputRef = useRef(null)
+
+    const handleUploadClick = () => {
+        fileInputRef.current.click()
+    }
+
     return (
-        <div className="flex flex-col gap-3 pt-0 md:pt-8 w-full md:w-[250px] relative">
-            <label
-                htmlFor={name}
-                className="text-light-400 font-roboto text-base leading-4 w-full"
-            >
-                {label}
-            </label>
-            <input
-                className={`bg-dark-800 py-[9px] px-[14px] rounded-lg w-full md:w-[250px] appearance-none ${
-                    hasValue ? 'text-light-100' : 'text-light-500'
-                }`}
-                type="file"
-                id={name}
-                name={name}
-                onChange={handleInputChange}
-                onBlur={field.onBlur}
-            />
+        <div className="" onClick={handleUploadClick}>
+            {' '}
+            <div>
+                <label
+                    htmlFor={name}
+                    className="text-light-400 font-roboto text-base leading-4 w-full"
+                >
+                    {label}
+                </label>
+                <div className="bg-dark-800 flex items-center gap-2 py-[9px] rounded-lg w-full md:w-[350px] justify-center cursor-pointer mt-[9px]">
+                    <input
+                        type="file"
+                        id={name}
+                        name={name}
+                        ref={fileInputRef}
+                        style={{ display: 'none' }}
+                        onChange={handleFileSelect}
+                    />
+                    <IconUpload
+                        width={28}
+                        height={28}
+                        className="text-light-100"
+                    />
+                    <span className="text-light-100 text-sm font-poppins font-medium leading-6">
+                        {hasValue
+                            ? field.value.name
+                            : 'Nenhum arquivo selecionado'}
+                        {path}
+                    </span>
+                </div>
+            </div>
             <ErrorMessage
                 name={name}
                 component="div"

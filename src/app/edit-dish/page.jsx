@@ -270,6 +270,7 @@ const EditDish = () => {
                                     <UploadFile
                                         name="dishImage"
                                         label="Imagem"
+                                        path={food?.path}
                                     />
 
                                     <InputNewEdit

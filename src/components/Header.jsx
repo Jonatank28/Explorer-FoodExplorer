@@ -73,7 +73,9 @@ const Header = () => {
                                 ) : (
                                     <>
                                         <IconReceipt />
-                                        <span>Pedidos (0)</span>
+                                        <Link href="/my-requests">
+                                            Pedidos (0)
+                                        </Link>
                                     </>
                                 )}
                             </div>
