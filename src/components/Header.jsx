@@ -1,8 +1,9 @@
 'use client'
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { AuthContext } from '@/context/authContext'
+import { foodContext } from '@/context/foodContext'
 import IconExit_right from '@/icon/IconExit_right'
 import IconMenu from '@/icon/IconMenu'
 import IconReceipt from '@/icon/IconReceipt'
@@ -12,6 +13,7 @@ import MenuMobile from './MenuMobile'
 const Header = () => {
     const { user, setSidebarOpen, sidebarOpen, handleExitSection } =
         useContext(AuthContext)
+    const { selectedItems } = useContext(foodContext)
 
     return (
         <>
@@ -48,14 +50,17 @@ const Header = () => {
                             )}
                         </Link>
                         {user?.papelID != 1 && (
-                            <div className="md:hidden flex justify-end relative">
+                            <Link
+                                className="md:hidden flex justify-end relative"
+                                href="/my-requests"
+                            >
                                 <IconReceipt />
                                 <div className="bg-tints-Tomato100 rounded-full absolute -top-2 -right-2 w-6 h-6 flex justify-center items-center">
                                     <span className="text-light-100 text-sm font-poppins font-medium">
                                         0
                                     </span>
                                 </div>
-                            </div>
+                            </Link>
                         )}
                         <div className="hidden md:flex gap-2 flex-1 bg-dark-900 py-3 px-4 text-light-500 rounded-[5px]">
                             <IconSearch height={30} width={30} />
@@ -74,7 +79,11 @@ const Header = () => {
                                     <>
                                         <IconReceipt />
                                         <Link href="/my-requests">
-                                            Pedidos (0)
+                                            Pedidos (
+                                            {selectedItems && selectedItems
+                                                ? selectedItems.length
+                                                : 0}
+                                            )
                                         </Link>
                                     </>
                                 )}

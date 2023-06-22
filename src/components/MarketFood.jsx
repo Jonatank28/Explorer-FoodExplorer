@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import { foodContext } from '@/context/foodContext'
 import Category from './Category'
 
-const MarketFood = () => {
+const MarketFood = ({ selectItems }) => {
     const { foods } = useContext(foodContext)
 
     return (

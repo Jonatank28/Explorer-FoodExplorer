@@ -2,7 +2,7 @@
 import React from 'react'
 import Card from './Card'
 
-const Category = ({ index }) => {
+const Category = ({ index, selectItems }) => {
     return (
         <>
             <h1
