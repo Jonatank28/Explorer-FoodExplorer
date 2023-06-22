@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatarReal } from '@/services/formater'
 
 const Order = ({ item }) => {
     return (
@@ -19,7 +20,7 @@ const Order = ({ item }) => {
                     </div>
                     <div>
                         <span className="font-roboto text-xs text-light-400 font-normal">
-                            R$ {item?.value}
+                            {formatarReal(item?.value)}
                         </span>
                     </div>
                 </div>

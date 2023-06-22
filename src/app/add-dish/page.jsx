@@ -252,6 +252,7 @@ const AddDish = () => {
                                             placeholder="R$ 00,00"
                                             label="Preço"
                                             type="number"
+                                            // value={price}
                                         />
                                     </div>
                                 </div>

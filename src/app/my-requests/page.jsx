@@ -11,6 +11,7 @@ import Order from '@/components/Order'
 import CreditCard from '@/components/CreditCard'
 import ButtonNextBack from '@/components/ButtonNextBack'
 import CheckdPayment from '@/components/CheckdPayment'
+import { formatarReal } from '@/services/formater'
 
 export default function Home() {
     const { sidebarOpen, permission, setFixedFooter } = useContext(AuthContext)
@@ -43,7 +44,7 @@ export default function Home() {
                                 ))}
                                 {selectedItems.length > 0 && (
                                     <h1 className="font-poppins font-medium text-light-300 text-xl mt-4">
-                                        Total: R$ {totalSum}
+                                        Total: {formatarReal(totalSum)}
                                     </h1>
                                 )}
                             </div>

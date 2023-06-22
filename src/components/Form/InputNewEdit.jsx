@@ -1,6 +1,6 @@
 import { Field, ErrorMessage, useField } from 'formik'
 
-const InputNewEdit = ({ name, type, label, placeholder }) => {
+const InputNewEdit = ({ name, type, label, placeholder, value }) => {
     const [field, meta, helpers] = useField(name)
     const hasValue = field.value !== ''
 
@@ -22,6 +22,7 @@ const InputNewEdit = ({ name, type, label, placeholder }) => {
                 }`}
                 type={type}
                 id={name}
+                defaultValue={value}
                 name={name}
                 placeholder={placeholder}
                 onChange={handleInputChange}

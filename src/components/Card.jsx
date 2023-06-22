@@ -7,6 +7,7 @@ import IconHeart from '@/icon/IconHeart'
 import IconPencil from '@/icon/IconPencil'
 import IconLine from '@/icon/IconLine'
 import IconAddOutline from '@/icon/IconAddOutline'
+import { formatarReal } from '@/services/formater'
 
 const Card = ({ index, selectItems }) => {
     const { user } = useContext(AuthContext)
@@ -65,6 +66,12 @@ const Card = ({ index, selectItems }) => {
         <>
             {foods?.[index]?.foods?.map((item, itemIndex) => {
                 const itemAmount = amountDishe[itemIndex]?.amount || 0
+                const formattedItemAmount =
+                    itemAmount < 0
+                        ? '0' + 0
+                        : itemAmount < 10
+                        ? `0${itemAmount}`
+                        : itemAmount
 
                 return (
                     <div
@@ -107,7 +114,7 @@ const Card = ({ index, selectItems }) => {
                                 {truncateText(item.description, 54)}
                             </p>
                             <h1 className="text-tints-Cake200 font-roboto font-normal text-2xl leading-snug">
-                                R$ {item.value}
+                                {formatarReal(item.value)}
                             </h1>
                             {user?.papelID === 0 && (
                                 <div className="flex flex-col justify-center md:flex-row items-center gap-4 pt-[15px] ">
@@ -115,7 +122,7 @@ const Card = ({ index, selectItems }) => {
                                         <IconLine
                                             height={34}
                                             width={34}
-                                            className="text-light-300 pr-2 cursor-pointer"
+                                            className="text-light-300 pr-2 cursor-pointer active:animate-bounce"
                                             onClick={() =>
                                                 handleAmountChange(
                                                     itemIndex,
@@ -124,9 +131,7 @@ const Card = ({ index, selectItems }) => {
                                             }
                                         />
                                         <p className="text-light-300 text-base font-normal font-roboto ">
-                                            {itemAmount < 10
-                                                ? `0${itemAmount}`
-                                                : itemAmount}
+                                            {formattedItemAmount}
                                         </p>
                                         <IconAddOutline
                                             onClick={() =>
@@ -137,11 +142,15 @@ const Card = ({ index, selectItems }) => {
                                             }
                                             height={34}
                                             width={34}
-                                            className="text-light-300 cursor-pointer"
+                                            className="text-light-300 cursor-pointer active:animate-bounce"
                                         />
                                     </div>
                                     <div
-                                        className={`bg-tints-Tomato100 px-6 py-3 rounded-[5px] w-full cursor-pointer `}
+                                        className={` px-6 py-3 rounded-[5px] w-full cursor-pointer ${
+                                            itemAmount === 0
+                                                ? 'bg-tints-Tomato100/60'
+                                                : 'bg-tints-Tomato100'
+                                        } `}
                                         onClick={() =>
                                             handleIncludeClick(itemIndex)
                                         }
