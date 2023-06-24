@@ -1,18 +1,25 @@
 'use client'
 import { useContext, useState } from 'react'
-import Link from 'next/link'
-import { AuthContext } from '@/context/authContext'
 import { foodContext } from '@/context/foodContext'
+import Link from 'next/link'
+import { api } from '@/services/api'
+import { AuthContext } from '@/context/authContext'
 import IconHeart from '@/icon/IconHeart'
 import IconPencil from '@/icon/IconPencil'
 import IconLine from '@/icon/IconLine'
 import IconAddOutline from '@/icon/IconAddOutline'
 import { formatarReal } from '@/services/formater'
+import Toaster from './Toaster'
 
 const Card = ({ index, selectItems }) => {
     const { user } = useContext(AuthContext)
-    const { foods, setSelectedItems } = useContext(foodContext)
+    const { foods, setSelectedItems, getFoods } = useContext(foodContext)
     const [amountDishe, setAmountDishe] = useState([])
+    const [showToaster, setShowToaster] = useState({
+        status: false,
+        message: '',
+        tag: '',
+    })
 
     //! Trunca o texto para 54 caracteres
     const truncateText = (text, maxLength) => {
@@ -20,6 +27,20 @@ const Card = ({ index, selectItems }) => {
             return text
         }
         return text.substring(0, maxLength - 3) + '...'
+    }
+
+    //! Atualiza o status do prato(favorito ou não)
+    const handleFavoriteClick = async (item) => {
+        if (item.foodID) {
+            await api
+                .put(`/foods/update/favorite/${item.foodID}`)
+                .then((response) => {
+                    getFoods()
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
     }
 
     //! Altera a quantidade do prato
@@ -59,11 +80,26 @@ const Card = ({ index, selectItems }) => {
                 JSON.stringify(itemsFromStorage)
             )
             setSelectedItems(itemsFromStorage)
+            setShowToaster({
+                status: true,
+                message: 'Prato adicionado com sucesso',
+                tag: 'success',
+            })
+            setTimeout(() => {
+                setShowToaster({
+                    status: false,
+                    message: '',
+                    tag: '',
+                })
+            }, 3000)
         }
     }
 
     return (
         <>
+            {showToaster.status && (
+                <Toaster message={showToaster.message} tag={showToaster.tag} />
+            )}
             {foods?.[index]?.foods?.map((item, itemIndex) => {
                 const itemAmount = amountDishe[itemIndex]?.amount || 0
                 const formattedItemAmount =
@@ -72,7 +108,6 @@ const Card = ({ index, selectItems }) => {
                         : itemAmount < 10
                         ? `0${itemAmount}`
                         : itemAmount
-
                 return (
                     <div
                         className="bg-dark-200 py-6 md:py-16 px-6 w-52 md:min-w-[304px] min-h-[290px] flex flex-col justify-center items-center relative"
@@ -88,9 +123,12 @@ const Card = ({ index, selectItems }) => {
                             </Link>
                         ) : (
                             <IconHeart
+                                onClick={() => handleFavoriteClick(item)}
                                 height={34}
                                 width={34}
-                                className="absolute top-4 right-4 md:top-6 md:right-6 text-light-300 cursor-pointer"
+                                className={`absolute top-4 right-4 md:top-6 md:right-6 text-light-300 cursor-pointer active:animate-ping     ${
+                                    item.favorite && 'fill-red-900'
+                                }`}
                             />
                         )}
                         <img
@@ -123,12 +161,14 @@ const Card = ({ index, selectItems }) => {
                                             height={34}
                                             width={34}
                                             className="text-light-300 pr-2 cursor-pointer active:animate-bounce"
-                                            onClick={() =>
-                                                handleAmountChange(
-                                                    itemIndex,
-                                                    itemAmount - 1
-                                                )
-                                            }
+                                            onClick={() => {
+                                                if (itemAmount > 0) {
+                                                    handleAmountChange(
+                                                        itemIndex,
+                                                        itemAmount - 1
+                                                    )
+                                                }
+                                            }}
                                         />
                                         <p className="text-light-300 text-base font-normal font-roboto ">
                                             {formattedItemAmount}
