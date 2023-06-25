@@ -14,7 +14,7 @@ export default function Home() {
     }, [])
     return (
         permission && (
-            <main className="">
+            <main>
                 <Header />
                 {!sidebarOpen && (
                     <>

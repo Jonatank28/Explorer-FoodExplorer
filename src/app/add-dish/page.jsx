@@ -107,6 +107,17 @@ const AddDish = () => {
                 setError(false)
             }, 1500)
         }
+        if (tags.length < 2) {
+            setError({
+                status: true,
+                message: 'Adicione pelo menos duas tags',
+                name: 'tags',
+            })
+            setTimeout(() => {
+                setError(false)
+            }, 1500)
+            return
+        }
         if (values.category.value === 0) {
             setError({
                 status: true,
@@ -200,6 +211,7 @@ const AddDish = () => {
                                     <UploadFile
                                         name="dishImage"
                                         label="Imagem"
+                                        accept=".jpg, .jpeg, .png, .webp"
                                     />
 
                                     <InputNewEdit

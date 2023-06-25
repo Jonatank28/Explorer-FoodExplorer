@@ -20,7 +20,7 @@ import Modal from '@/components/Modal'
 const EditDish = () => {
     const { sidebarOpen, permission, setFixedFooter, newTag, setNewTag } =
         useContext(AuthContext)
-    const { getFoods } = useContext(foodContext)
+    const { getFoods, setFilteredFoods } = useContext(foodContext)
     const [tags, setTags] = useState([])
     const [openModalDelete, setOpenModalDelete] = useState(false)
 
@@ -111,12 +111,12 @@ const EditDish = () => {
 
     //! Deleta prato
     const handleClickDelete = async () => {
-        console.log('delete')
         await api
             .delete(`/foods/delete/${id}`)
             .then((response) => {
                 if (response.status === 200) {
                     setOpenModalDelete(false)
+                    setFilteredFoods([])
                     setShowToaster({
                         status: true,
                         message: response.data.message,
@@ -222,7 +222,6 @@ const EditDish = () => {
     const getFoodSelect = async () => {
         try {
             const response = await api.get(`/foods-select/${id}`)
-            console.log(response.data)
             setFood(response.data.food[0])
             setTags(response.data.ingredients)
         } catch (error) {

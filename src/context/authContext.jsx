@@ -57,10 +57,7 @@ const AuthProvider = ({ children }) => {
             })
             .catch((error) => {
                 console.log(error)
-                console.log(error.response.status)
-                // TODO Fazer telas (401 | 403 = 'Sem permissão', 419 = 'Token expirado')
                 setErrorCode(error.response.status)
-                console.log('erro de token', error)
             })
     }
 

@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { Field, ErrorMessage, useField } from 'formik'
 import IconUpload from '@/icon/IconUpload'
 
-const UploadFile = ({ name, label, path }) => {
+const UploadFile = ({ name, label, path, accept }) => {
     const [field, meta, helpers] = useField(name)
     const hasValue = field.value !== ''
 
@@ -35,6 +35,7 @@ const UploadFile = ({ name, label, path }) => {
                         ref={fileInputRef}
                         style={{ display: 'none' }}
                         onChange={handleFileSelect}
+                        accept={accept}
                     />
                     <IconUpload
                         width={28}
@@ -52,7 +53,7 @@ const UploadFile = ({ name, label, path }) => {
             <ErrorMessage
                 name={name}
                 component="div"
-                className="text-red-400 text-xs absolute -bottom-5 right-0"
+                className="text-red-400 text-xs "
             />
         </div>
     )

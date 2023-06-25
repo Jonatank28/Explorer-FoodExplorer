@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 /*! Toaster */
 .toaster {
     @apply fixed bottom-5 left-1/2 transform -translate-x-1/2 w-64 p-4 rounded-md text-white text-center transition-all duration-300 z-50;

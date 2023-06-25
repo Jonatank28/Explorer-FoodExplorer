@@ -30,8 +30,6 @@ const DishSelected = ({}) => {
     const getFoodSelect = async () => {
         try {
             const response = await api.get(`/foods-select/${id}`)
-            console.log(response.data)
-
             setData(response.data)
         } catch (error) {
             console.log(error)
@@ -69,8 +67,6 @@ const DishSelected = ({}) => {
             }, 3000)
         }
     }
-
-    console.log('dados', data)
 
     useEffect(() => {
         setFixedFooter(true)

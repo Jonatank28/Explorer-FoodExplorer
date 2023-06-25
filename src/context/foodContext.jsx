@@ -16,7 +16,6 @@ const FoodProvider = ({ children }) => {
         try {
             const response = await api.get('/foods')
             setFoods(response.data)
-            console.log('🚀 ~ response.data:', response.data)
         } catch (error) {
             console.log(error)
         }
@@ -55,8 +54,6 @@ const FoodProvider = ({ children }) => {
         }, [])
         setFilteredFoods(filtered)
     }
-
-    console.log('🚀 ~ filteredFoods:', filteredFoods)
 
     const values = {
         foods,

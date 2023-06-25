@@ -6,7 +6,7 @@ const SelectNewEdit = ({ name, label, options, placeholder, errorSelect }) => {
 
     const handleSelectChange = (event) => {
         const selectedOption = options.find(
-            (option) => option.value.toString() === event.target.value
+            (option) => option?.value?.toString() === event.target.value
         )
         helpers.setValue(selectedOption)
     }
@@ -24,7 +24,7 @@ const SelectNewEdit = ({ name, label, options, placeholder, errorSelect }) => {
                 className="bg-dark-800 py-3 px-[14px] w-full md:w-[364px] rounded-lg text-light-100"
                 id={name}
                 name={name}
-                value={field.value?.value || ''}
+                value={field?.value?.value || ''}
                 onChange={handleSelectChange}
             >
                 <option value="">{placeholder}</option>

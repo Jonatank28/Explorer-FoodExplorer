@@ -17,7 +17,7 @@ const poppins = Poppins({
 
 export const metadata = {
     title: 'Food Explorer',
-    description: 'Projeto de finalização do curso Explorer',
+    description: 'Projeto final do programa Explorer da Rocketseat',
 }
 
 const BodyContent = ({ children }) => {
