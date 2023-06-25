@@ -67,14 +67,15 @@ Client:
 <div align="center">
     <div style="display: flex; justify-content: center; gap: 10px">
         <img  alt="Web app" src="https://raw.githubusercontent.com/Jonatank28/Explorer-FoodExplorer/master/public/fotos/home.jpg" style="width: auto;" />
-        <img alt="Web app" src="https://raw.githubusercontent.com/Jonatank28/Explorer-FoodExplorer/master/public/fotos/homeMobile.jpg" style="width: auto;" />
+        <img alt="Web app" src="https://raw.githubusercontent.com/Jonatank28/Explorer-FoodExplorer/master/public/fotos/novo.jpg" style="width: auto;" />
     </div>
 </div>
 <div align="center" style="margin-top: 10px">
     <div style="display: flex; justify-content: center; gap: 10px">
-        <img  alt="Web app" src="https://raw.githubusercontent.com/Jonatank28/Explorer-FoodExplorer/master/public/fotos/novo.jpg" style="width: auto;" />
+        <img  alt="Web app" src="https://raw.githubusercontent.com/Jonatank28/Explorer-FoodExplorer/master/public/fotos/homeMobile.jpg" style="width: auto;" />
         <img alt="Web app" src="https://raw.githubusercontent.com/Jonatank28/Explorer-FoodExplorer/master/public/fotos/editMobile.jpg" style="width: auto;" />
     </div>
+    
 </div>
 
 ## Creditos
