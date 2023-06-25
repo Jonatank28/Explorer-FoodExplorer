@@ -5,10 +5,11 @@ import Image from 'next/image'
 import * as Yup from 'yup'
 import Input from '@/components/Form/Input'
 import { AuthContext } from '@/context/authContext'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
+import Toaster from '@/components/Toaster'
 
 const Register = () => {
-    const { registerUser } = useContext(AuthContext)
+    const { registerUser, showToaster } = useContext(AuthContext)
 
     const initialValues = {
         name: '',
@@ -34,49 +35,54 @@ const Register = () => {
     }
 
     return (
-        <main className="h-screen w-screen flex flex-col justify-center items-center md:flex-row gap-12">
-            <div className="w-full flex justify-center items-center">
-                <Image
-                    src="/IconeLogo.svg"
-                    alt="Logo do food explorer"
-                    width={300}
-                    height={300}
-                />
-            </div>
-            <div className="w-full flex justify-center items-center">
-                <Formik
-                    validationSchema={validationSchema}
-                    onSubmit={handleSubmit}
-                    initialValues={initialValues}
-                >
-                    <FormOne
-                        title="Crie sua conta"
-                        baseboard="Já tenho uma conta"
-                        textButton="Criar conta"
-                        link="/login"
+        <>
+            {showToaster.status && (
+                <Toaster message={showToaster.message} tag={showToaster.tag} />
+            )}
+            <main className="h-screen w-screen flex flex-col justify-center items-center md:flex-row gap-12">
+                <div className="w-full flex justify-center items-center">
+                    <Image
+                        src="/IconeLogo.svg"
+                        alt="Logo do food explorer"
+                        width={300}
+                        height={300}
+                    />
+                </div>
+                <div className="w-full flex justify-center items-center">
+                    <Formik
+                        validationSchema={validationSchema}
+                        onSubmit={handleSubmit}
+                        initialValues={initialValues}
                     >
-                        <Input
-                            name="name"
-                            type="str"
-                            label="Seu nome"
-                            placeholder="Exemplo: Maria da Silva"
-                        />
-                        <Input
-                            name="email"
-                            type="email"
-                            label="Email"
-                            placeholder="Exemplo: exemplo@exemplo.com.br"
-                        />
-                        <Input
-                            name="password"
-                            type="password"
-                            label="Senha"
-                            placeholder="No mínimo 6 caracteres"
-                        />
-                    </FormOne>
-                </Formik>
-            </div>
-        </main>
+                        <FormOne
+                            title="Crie sua conta"
+                            baseboard="Já tenho uma conta"
+                            textButton="Criar conta"
+                            link="/login"
+                        >
+                            <Input
+                                name="name"
+                                type="str"
+                                label="Seu nome"
+                                placeholder="Exemplo: Maria da Silva"
+                            />
+                            <Input
+                                name="email"
+                                type="email"
+                                label="Email"
+                                placeholder="Exemplo: exemplo@exemplo.com.br"
+                            />
+                            <Input
+                                name="password"
+                                type="password"
+                                label="Senha"
+                                placeholder="No mínimo 6 caracteres"
+                            />
+                        </FormOne>
+                    </Formik>
+                </div>
+            </main>
+        </>
     )
 }
 

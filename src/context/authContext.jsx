@@ -13,6 +13,11 @@ const AuthProvider = ({ children }) => {
     const [errorReq, setErrorReq] = useState('')
     const [newTag, setNewTag] = useState('')
     const [errorCode, setErrorCode] = useState('')
+    const [showToaster, setShowToaster] = useState({
+        status: false,
+        message: '',
+        tag: '',
+    })
     const router = useRouter()
 
     //! Faz login do usuário
@@ -67,10 +72,23 @@ const AuthProvider = ({ children }) => {
         await api
             .post('/register', values)
             .then((response) => {
-                console.log(response.data)
+                if (response.status !== 201) return
+                setShowToaster({
+                    status: true,
+                    message: 'Conta criada com sucesso',
+                    tag: 'success',
+                })
+                setTimeout(() => {
+                    setShowToaster({
+                        status: false,
+                        message: '',
+                        tag: '',
+                    })
+                    router.push('/login')
+                }, 2000)
             })
             .catch((error) => {
-                setErrorReq(error.response.data.message)
+                setErrorReq(error?.response?.data?.message)
                 setTimeout(() => {
                     setErrorReq('')
                 }, 2000)
@@ -108,6 +126,7 @@ const AuthProvider = ({ children }) => {
         newTag,
         errorCode,
         setErrorCode,
+        showToaster,
     }
 
     return (
