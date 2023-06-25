@@ -1,21 +1,32 @@
 'use client'
 import { api } from '@/services/api'
 import { AuthContext } from '@/context/authContext'
+import { foodContext } from '@/context/foodContext'
 import { useContext, useEffect, useState } from 'react'
+import { formatarReal } from '@/services/formater'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import Link from 'next/link'
 import IconAddOutline from '@/icon/IconAddOutline'
 import IconLine from '@/icon/IconLine'
 import { useSearchParams } from 'next/navigation'
+import Toaster from '@/components/Toaster'
 
 const DishSelected = ({}) => {
     const { sidebarOpen, permission, setFixedFooter, user } =
         useContext(AuthContext)
+    const { setSelectedItems } = useContext(foodContext)
+    const [amountDishe, setAmountDishe] = useState(1)
     const [data, setData] = useState(null)
     const searchParams = useSearchParams()
     const id = searchParams.get('id')
+    const [showToaster, setShowToaster] = useState({
+        status: false,
+        message: '',
+        tag: '',
+    })
 
+    //! Busca os dados do prato selecionado
     const getFoodSelect = async () => {
         try {
             const response = await api.get(`/foods-select/${id}`)
@@ -24,6 +35,38 @@ const DishSelected = ({}) => {
             setData(response.data)
         } catch (error) {
             console.log(error)
+        }
+    }
+
+    //! Adiciona ao carinho
+
+    const handleIncludeClick = async () => {
+        if (amountDishe > 0) {
+            const item = {
+                ...data?.food[0],
+                amount: amountDishe,
+            }
+            const itemsFromStorage =
+                JSON.parse(localStorage.getItem('selectedItems')) || []
+            itemsFromStorage.push(item)
+            localStorage.setItem(
+                'selectedItems',
+                JSON.stringify(itemsFromStorage)
+            )
+            setAmountDishe(0)
+            setSelectedItems(itemsFromStorage)
+            setShowToaster({
+                status: true,
+                message: 'Prato adicionado com sucesso',
+                tag: 'success',
+            })
+            setTimeout(() => {
+                setShowToaster({
+                    status: false,
+                    message: '',
+                    tag: '',
+                })
+            }, 3000)
         }
     }
 
@@ -40,6 +83,12 @@ const DishSelected = ({}) => {
                 <Header />
                 {!sidebarOpen && (
                     <>
+                        {showToaster.status && (
+                            <Toaster
+                                message={showToaster.message}
+                                tag={showToaster.tag}
+                            />
+                        )}
                         <div className=" w-default mx-auto cursor-pointer px-4 md:px-0">
                             <div className="pt-4 md:pt-6 ">
                                 <Link
@@ -79,19 +128,46 @@ const DishSelected = ({}) => {
                                                 <IconLine
                                                     height={34}
                                                     width={34}
-                                                    className="text-light-300 pr-2 cursor-pointer"
+                                                    className="text-light-300 pr-2 cursor-pointer active:animate-bounce"
+                                                    onClick={() => {
+                                                        if (amountDishe > 0) {
+                                                            setAmountDishe(
+                                                                amountDishe - 1
+                                                            )
+                                                        }
+                                                    }}
                                                 />
                                                 <p className="text-light-300 text-base font-normal font-roboto ">
-                                                    01
+                                                    {amountDishe < 0
+                                                        ? '0' + 0
+                                                        : amountDishe < 10
+                                                        ? `0${amountDishe}`
+                                                        : amountDishe}
                                                 </p>
                                                 <IconAddOutline
+                                                    onClick={() =>
+                                                        setAmountDishe(
+                                                            amountDishe + 1
+                                                        )
+                                                    }
                                                     height={34}
                                                     width={34}
-                                                    className="text-light-300 cursor-pointer"
+                                                    className="text-light-300 cursor-pointer active:animate-bounce"
                                                 />
                                             </div>
                                         )}
-                                        <div className="flex items-center bg-tints-Tomato100 py-3 px-6 rounded-md text-light-100 font-poppins font-medium text-sm leading-6 ">
+                                        <div
+                                            onClick={
+                                                user?.papelID === 0
+                                                    ? handleIncludeClick
+                                                    : undefined
+                                            }
+                                            className={`flex items-center  py-3 px-6 rounded-md text-light-100 font-poppins font-medium text-sm leading-6 ${
+                                                amountDishe === 0
+                                                    ? 'bg-tints-Tomato100/60'
+                                                    : 'bg-tints-Tomato100'
+                                            }`}
+                                        >
                                             {user?.papelID == 1 ? (
                                                 <Link
                                                     href={`/edit-dish?id=${data?.food[0]?.foodID}`}
@@ -104,7 +180,13 @@ const DishSelected = ({}) => {
                                                     <span className="px-1">
                                                         -
                                                     </span>
-                                                    <span>R$ 25,00</span>
+                                                    <span>
+                                                        {formatarReal(
+                                                            amountDishe *
+                                                                data?.food[0]
+                                                                    ?.value
+                                                        )}
+                                                    </span>
                                                 </>
                                             )}
                                         </div>

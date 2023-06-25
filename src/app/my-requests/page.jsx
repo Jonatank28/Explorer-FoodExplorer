@@ -16,7 +16,6 @@ import { formatarReal } from '@/services/formater'
 export default function Home() {
     const { sidebarOpen, permission, setFixedFooter } = useContext(AuthContext)
     const { selectedItems, totalSum } = useContext(foodContext)
-    console.log('🚀 ~ selectedItems:', selectedItems)
     const [selected, setSelected] = useState('pix')
     const [selectMobile, setSelectMobile] = useState(false)
 

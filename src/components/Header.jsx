@@ -13,7 +13,7 @@ import MenuMobile from './MenuMobile'
 const Header = () => {
     const { user, setSidebarOpen, sidebarOpen, handleExitSection } =
         useContext(AuthContext)
-    const { selectedItems } = useContext(foodContext)
+    const { selectedItems, filterFoods } = useContext(foodContext)
 
     return (
         <>
@@ -57,7 +57,9 @@ const Header = () => {
                                 <IconReceipt />
                                 <div className="bg-tints-Tomato100 rounded-full absolute -top-2 -right-2 w-6 h-6 flex justify-center items-center">
                                     <span className="text-light-100 text-sm font-poppins font-medium">
-                                        0
+                                        {selectedItems && selectedItems
+                                            ? selectedItems.length
+                                            : 0}
                                     </span>
                                 </div>
                             </Link>
@@ -65,6 +67,7 @@ const Header = () => {
                         <div className="hidden md:flex gap-2 flex-1 bg-dark-900 py-3 px-4 text-light-500 rounded-[5px]">
                             <IconSearch height={30} width={30} />
                             <input
+                                onChange={(e) => filterFoods(e.target.value)}
                                 type="text"
                                 placeholder="Busque por pratos ou ingredientes"
                                 className="w-full bg-dark-900 outline-none"

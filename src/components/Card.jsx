@@ -13,7 +13,8 @@ import Toaster from './Toaster'
 
 const Card = ({ index, selectItems }) => {
     const { user } = useContext(AuthContext)
-    const { foods, setSelectedItems, getFoods } = useContext(foodContext)
+    const { foods, setSelectedItems, getFoods, filteredFoods } =
+        useContext(foodContext)
     const [amountDishe, setAmountDishe] = useState([])
     const [showToaster, setShowToaster] = useState({
         status: false,
@@ -100,7 +101,10 @@ const Card = ({ index, selectItems }) => {
             {showToaster.status && (
                 <Toaster message={showToaster.message} tag={showToaster.tag} />
             )}
-            {foods?.[index]?.foods?.map((item, itemIndex) => {
+            {(foods && filteredFoods.length > 0
+                ? filteredFoods[index]?.foods
+                : foods?.[index]?.foods
+            )?.map((item, itemIndex) => {
                 const itemAmount = amountDishe[itemIndex]?.amount || 0
                 const formattedItemAmount =
                     itemAmount < 0
@@ -108,6 +112,7 @@ const Card = ({ index, selectItems }) => {
                         : itemAmount < 10
                         ? `0${itemAmount}`
                         : itemAmount
+
                 return (
                     <div
                         className="bg-dark-200 py-6 md:py-16 px-6 w-52 md:min-w-[304px] min-h-[290px] flex flex-col justify-center items-center relative"

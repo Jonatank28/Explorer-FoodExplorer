@@ -296,7 +296,7 @@ const EditDish = () => {
                                         >
                                             Ingredientes
                                         </label>
-                                        <div className=" bg-dark-800 py-[7px] flex flex-wrap gap-2 px-[14px] rounded-lg appearance-none mt-[9px]">
+                                        <div className=" bg-dark-800 py-[7px] flex flex-wrap gap-2 md:px[25px] md:px-[14px] rounded-lg appearance-none mt-[9px] justify-center md:justify-start ">
                                             {tags &&
                                                 tags.map((item, index) => (
                                                     <TagIngredient
@@ -334,7 +334,7 @@ const EditDish = () => {
                                     placeholder="Fale brevemente sobre o prato, seus ingredientes e composição"
                                     label="Descrição"
                                 />
-                                <div className="flex justify-end items-center gap-8">
+                                <div className="flex justify-end items-center gap-8 mb-0 md:mb-44">
                                     <button
                                         type="button"
                                         onClick={() => setOpenModalDelete(true)}

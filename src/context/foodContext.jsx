@@ -1,13 +1,7 @@
 'use client'
 import { api } from '@/services/api'
 import { AuthContext } from './authContext'
-import React, {
-    createContext,
-    useState,
-    useEffect,
-    useContext,
-    use,
-} from 'react'
+import { createContext, useState, useEffect, useContext } from 'react'
 
 const foodContext = createContext({})
 
@@ -15,12 +9,14 @@ const FoodProvider = ({ children }) => {
     const { user } = useContext(AuthContext)
     const [foods, setFoods] = useState()
     const [selectedItems, setSelectedItems] = useState([])
+    const [filteredFoods, setFilteredFoods] = useState([])
 
     //! Função que busca os foods do banco de dados
     const getFoods = async () => {
         try {
             const response = await api.get('/foods')
             setFoods(response.data)
+            console.log('🚀 ~ response.data:', response.data)
         } catch (error) {
             console.log(error)
         }
@@ -43,6 +39,25 @@ const FoodProvider = ({ children }) => {
         totalSum += itemTotal
     })
 
+    //! Função que filtra por nome de prato e retorna um array com os pratos filtrados
+    const filterFoods = (searchTerm) => {
+        const filtered = foods.reduce((result, category) => {
+            const filteredFoods = category.foods.filter((food) =>
+                food.name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            if (filteredFoods.length > 0) {
+                result.push({
+                    category: category.category,
+                    foods: filteredFoods,
+                })
+            }
+            return result
+        }, [])
+        setFilteredFoods(filtered)
+    }
+
+    console.log('🚀 ~ filteredFoods:', filteredFoods)
+
     const values = {
         foods,
         setFoods,
@@ -50,6 +65,9 @@ const FoodProvider = ({ children }) => {
         setSelectedItems,
         selectedItems,
         totalSum,
+        filterFoods,
+        filteredFoods,
+        setFilteredFoods,
     }
     return (
         <foodContext.Provider value={values}>{children}</foodContext.Provider>

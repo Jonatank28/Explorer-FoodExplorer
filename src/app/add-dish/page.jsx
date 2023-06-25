@@ -20,7 +20,7 @@ const AddDish = () => {
     const router = useRouter()
     const { sidebarOpen, permission, setFixedFooter, newTag, setNewTag } =
         useContext(AuthContext)
-    const { getFoods } = useContext(foodContext)
+    const { getFoods, setFilteredFoods } = useContext(foodContext)
     const [tags, setTags] = useState([])
     const [error, setError] = useState({
         status: false,
@@ -134,6 +134,7 @@ const AddDish = () => {
             const response = await api.patch('foods/create', formData)
 
             if (response.status === 200) {
+                setFilteredFoods([])
                 setShowToaster({
                     status: true,
                     message: 'Prato adicionado com sucesso',
@@ -252,7 +253,6 @@ const AddDish = () => {
                                             placeholder="R$ 00,00"
                                             label="Preço"
                                             type="number"
-                                            // value={price}
                                         />
                                     </div>
                                 </div>
@@ -265,7 +265,7 @@ const AddDish = () => {
                                 <div className="flex justify-end items-center ">
                                     <button
                                         type="submit"
-                                        className="w-full md:w-auto text-light-100 font-poppins font-medium leading-6 px-6 py-3 text-sm bg-tints-Tomato400 hover:bg-tints-Tomato300  transition-colors rounded-md mt-7 mb-28"
+                                        className="w-full md:w-auto text-light-100 font-poppins font-medium leading-6 px-6 py-3 text-sm bg-tints-Tomato400 hover:bg-tints-Tomato300  transition-colors rounded-md mt-7 mb-12 md:mb-44"
                                     >
                                         Salvar alterações
                                     </button>

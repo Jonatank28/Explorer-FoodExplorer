@@ -18,7 +18,7 @@ const UploadFile = ({ name, label, path }) => {
     }
 
     return (
-        <div className="" onClick={handleUploadClick}>
+        <div className="w-full md:w-auto" onClick={handleUploadClick}>
             {' '}
             <div>
                 <label
