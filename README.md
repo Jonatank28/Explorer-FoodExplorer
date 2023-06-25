@@ -64,12 +64,18 @@ Client:
 
 ## Imagens
 
-<h1 align="center">
-    <img alt = "Web app" src = "./fotos/home.jpg" width = "500px" />
-    <img alt = "Web app" src = "./.github/image-02.png" width = "500px" />
-    <img alt = "Web app" src = "./.github/image-03.png" width = "500px" />
-    <img alt = "Web app" src = "./.github/image-04.png" width = "500px" />
-</h1>
+<div align="center">
+    <div style="display: flex; justify-content: center; gap: 10px">
+        <img  alt="Web app" src="https://raw.githubusercontent.com/Jonatank28/Explorer-FoodExplorer/master/public/fotos/home.jpg" style="width: auto;" />
+        <img alt="Web app" src="https://raw.githubusercontent.com/Jonatank28/Explorer-FoodExplorer/master/public/fotos/homeMobile.jpg" style="width: auto;" />
+    </div>
+</div>
+<div align="center" style="margin-top: 10px">
+    <div style="display: flex; justify-content: center; gap: 10px">
+        <img  alt="Web app" src="https://raw.githubusercontent.com/Jonatank28/Explorer-FoodExplorer/master/public/fotos/novo.jpg" style="width: auto;" />
+        <img alt="Web app" src="https://raw.githubusercontent.com/Jonatank28/Explorer-FoodExplorer/master/public/fotos/editMobile.jpg" style="width: auto;" />
+    </div>
+</div>
 
 ## Creditos
 
