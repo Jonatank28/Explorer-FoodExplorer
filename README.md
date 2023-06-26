@@ -6,7 +6,7 @@
 
 ## Food Explorer
 
-O Food Explorer é o projeto final do programa Explorer, uma aplicação que visa simular um sistema completo de pedidos de comida. O projeto inclui recursos como autenticação de usuários, login e cadastro, com a utilização de tokens para autenticação. Inspirado por plataformas como o iFood, o Food Explorer permite que os usuários realizem pedidos de pratos e refrigerantes, além de oferecer um sistema de carrinho para armazenar os itens selecionados. Por fim, o projeto conta com uma tela de pagamento, embora seja importante ressaltar que essa funcionalidade é apenas uma representação e não realiza transações reais. É importante destacar que existem dois tipos de usuários no sistema, o administrador (admin) e o cliente (client), cada um com permissões distintas e acesso a recursos específicos.
+O Food Explorer é o projeto final do programa Explorer da Rocketseat, uma aplicação que visa simular um sistema completo de pedidos de comida. O projeto inclui recursos como autenticação de usuários, login e cadastro, com a utilização de tokens para autenticação. Inspirado por plataformas como o iFood, o Food Explorer permite que os usuários realizem pedidos de pratos e refrigerantes, além de oferecer um sistema de carrinho para armazenar os itens selecionados. Por fim, o projeto conta com uma tela de pagamento, embora seja importante ressaltar que essa funcionalidade é apenas uma representação e não realiza transações reais. É importante destacar que existem dois tipos de usuários no sistema, o administrador (admin) e o cliente (client), cada um com permissões distintas e acesso a recursos específicos.
 <br>
 
 ## Tecnologias
