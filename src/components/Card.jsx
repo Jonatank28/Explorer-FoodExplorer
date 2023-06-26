@@ -22,6 +22,7 @@ const Card = ({ index, selectItems }) => {
         tag: '',
     })
 
+    console.log('🚀 ~ foods:', foods)
     //! Trunca o texto para 54 caracteres
     const truncateText = (text, maxLength) => {
         if (text.length <= maxLength) {
@@ -34,7 +35,7 @@ const Card = ({ index, selectItems }) => {
     const handleFavoriteClick = async (item) => {
         if (item.foodID) {
             await api
-                .put(`/foods/update/favorite/${item.foodID}`)
+                .put(`/foods/update/favorite/${item.foodID}/${user.userID}`)
                 .then((response) => {
                     getFoods()
                 })

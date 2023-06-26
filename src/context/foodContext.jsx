@@ -14,7 +14,7 @@ const FoodProvider = ({ children }) => {
     //! Função que busca os foods do banco de dados
     const getFoods = async () => {
         try {
-            const response = await api.get('/foods')
+            const response = await api.get(`/foods/${user.userID}`)
             setFoods(response.data)
         } catch (error) {
             console.log(error)
